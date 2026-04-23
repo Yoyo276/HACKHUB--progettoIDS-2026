@@ -1,12 +1,16 @@
 package com.example.controller;
 
+import com.example.model.Team;
 import com.example.dto.HackathonDTO;
 import com.example.model.Hackathon;
-import com.example.model.Team;
 import com.example.service.HackathonFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +20,6 @@ public class TeamController {
 
     @Autowired
     private HackathonFacade facade;
-
-    // --- CONSULTAZIONE PUBBLICA (Commit 6) ---
 
     @GetMapping("/tutti-hackathon")
     public List<HackathonDTO> getTuttiHackathon() {
@@ -34,6 +36,13 @@ public class TeamController {
                 .collect(Collectors.toList());
     }
 
+
+    @GetMapping("/squadre-hackathon")
+    public List<Team> getSquadreHackathon(@RequestParam("hackathonId") Long hackathonId) {
+        return facade.getDettagliHackathon(hackathonId).getTeams();
+    }
+
+
     @GetMapping("/dettagli-hackathon")
     public HackathonDTO visualizzaDettagli(@RequestParam("hackathonId") Long hackathonId) {
         Hackathon h = facade.getDettagliHackathon(hackathonId);
@@ -47,8 +56,29 @@ public class TeamController {
                 h.getDimensioneMassimaTeam());
     }
 
-    @GetMapping("/squadre-hackathon")
-    public List<Team> getSquadreHackathon(@RequestParam("hackathonId") Long hackathonId) {
-        return facade.getDettagliHackathon(hackathonId).getTeams();
+    @PostMapping("/crea-team")
+    @PreAuthorize("hasRole('UTENTE')")
+    public String creaTeam(@RequestParam("hackathonId") Long hackathonId, @RequestParam("nome") String nome) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return facade.iscriviTeam(hackathonId, nome, username);
     }
+
+    @PostMapping("/invita")
+    @PreAuthorize("hasRole('MEMBRO_TEAM')")
+    public String invita(@RequestParam("id") Long id, @RequestParam("user") String user) {
+        return facade.invita(id, user);
+    }
+
+    @PostMapping("/accetta-invito")
+    @PreAuthorize("hasRole('UTENTE')")
+    public String accettaInvito(@RequestParam("teamId") Long teamId) {
+        return facade.accettaInvito(teamId);
+    }
+
+    @GetMapping("/tutti-team")
+    public List<Team> listaTeam() {
+        return facade.getAll();
+    }
+
+
 }
