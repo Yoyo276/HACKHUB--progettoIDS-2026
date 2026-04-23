@@ -1,7 +1,14 @@
 package com.example.model;
 
 import com.example.model.auth.User;
+import com.example.state.HackathonState;
+import com.example.state.InIscrizioneState;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Hackathon {
@@ -16,8 +23,15 @@ public class Hackathon {
     @ManyToOne
     private User organizzatore;
 
+    @OneToMany(mappedBy = "hackathon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("hackathon")
+    private List<Team> teams = new ArrayList<>();
+
     public Hackathon() {
+
+
     }
+
 
     // Getter e Setter
     public Long getId() {
@@ -51,7 +65,7 @@ public class Hackathon {
     public void setPremioInDenaro(Double p) {
         this.premioInDenaro = p;
     }
-
+    
     public User getOrganizzatore() {
         return organizzatore;
     }
@@ -59,4 +73,6 @@ public class Hackathon {
     public void setOrganizzatore(User o) {
         this.organizzatore = o;
     }
+
+
 }
