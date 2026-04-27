@@ -21,27 +21,42 @@ public class TeamController {
     @Autowired
     private HackathonFacade facade;
 
-    @GetMapping("/tutti-hackathon")
-    public List<HackathonDTO> getTuttiHackathon() {
-        List<Hackathon> hackathons = facade.getTuttiHackathonEntity();
-        return hackathons.stream()
-                .map(h -> new HackathonDTO(
-                        h.getId(),
-                        h.getNome(),
-                        h.getLuogo(),
-                        h.getPremioInDenaro(),
-                        h.getNomeStato(),
-                        h.getDataScadenzaIscrizioni(),
-                        h.getDimensioneMassimaTeam()))
-                .collect(Collectors.toList());
+    @PostMapping("/crea-hackathon")
+    @PreAuthorize("hasRole('ORGANIZZATORE')")
+    public String creaHackathon(
+            @RequestParam("nome") String nome,
+            @RequestParam("luogo") String luogo,
+            @RequestParam("scadenza") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate scadenza,
+            @RequestParam("inizio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inizio,
+            @RequestParam("fine") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fine,
+            @RequestParam("maxMembri") Integer maxMembri) {
+
+        String usernameOrg = SecurityContextHolder.getContext().getAuthentication().getName();
+        return facade.creaHackathon(nome, luogo, premio, giudiceId, usernameOrg, scadenza, inizio, fine, maxMembri);
     }
 
+    @PostMapping("/avanza")
+    @PreAuthorize("hasRole('ORGANIZZATORE')")
+    public String avanza(@RequestParam("hackathonId") Long hackathonId) {
+        return facade.avanza(hackathonId);
+    }
 
+    @PostMapping("/chiedi-supporto")
+    @PreAuthorize("hasRole('MEMBRO_TEAM')")
+    public String chiediSupporto(@RequestParam("id") Long id, @RequestParam("messaggio") String messaggio) {
+        return facade.richiediAiuto(id, messaggio);
+    }
+    
     @GetMapping("/squadre-hackathon")
     public List<Team> getSquadreHackathon(@RequestParam("hackathonId") Long hackathonId) {
         return facade.getDettagliHackathon(hackathonId).getTeams();
     }
 
+    @PostMapping("/accetta-invito")
+    @PreAuthorize("hasRole('UTENTE')")
+    public String accettaInvito(@RequestParam("teamId") Long teamId) {
+        return facade.accettaInvito(teamId);
+    }
 
     @GetMapping("/dettagli-hackathon")
     public HackathonDTO visualizzaDettagli(@RequestParam("hackathonId") Long hackathonId) {
@@ -54,6 +69,18 @@ public class TeamController {
                 h.getNomeStato(),
                 h.getDataScadenzaIscrizioni(),
                 h.getDimensioneMassimaTeam());
+    }
+
+    @GetMapping("/stato-sottomissione")
+    @PreAuthorize("hasRole('MEMBRO_TEAM')")
+    public String visualizzaStatoSottomissione() {
+        return facade.getStatoMiaSottomissione();
+    }
+
+    @GetMapping("/sottomissioni-hackathon")
+    @PreAuthorize("hasAnyRole('ORGANIZZATORE', 'GIUDICE', 'MENTORE')")
+    public List<String> accessoSottomissioni(@RequestParam("hackathonId") Long hackathonId) { // <-- SISTEMATO
+        return facade.getLinkSottomissioni(hackathonId);
     }
 
     @PostMapping("/crea-team")
@@ -69,16 +96,15 @@ public class TeamController {
         return facade.invita(id, user);
     }
 
-    @PostMapping("/accetta-invito")
-    @PreAuthorize("hasRole('UTENTE')")
-    public String accettaInvito(@RequestParam("teamId") Long teamId) {
-        return facade.accettaInvito(teamId);
+    @PostMapping("/sottometti")
+    @PreAuthorize("hasRole('MEMBRO_TEAM')")
+    public String sottometti(@RequestParam("id") Long id, @RequestParam("link") String link) {
+        return facade.sottometti(id, link);
     }
 
     @GetMapping("/tutti-team")
     public List<Team> listaTeam() {
         return facade.getAll();
     }
-
 
 }
