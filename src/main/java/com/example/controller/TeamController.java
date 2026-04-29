@@ -56,15 +56,9 @@ public class TeamController {
     public String chiediSupporto(@RequestParam("id") Long id, @RequestParam("messaggio") String messaggio) {
         return facade.richiediAiuto(id, messaggio);
     }
-/* @GetMapping("/squadre-hackathon")
-    public List<String> getSquadreHackathon(@RequestParam("hackathonId") Long hackathonId) {
-        // Restituiamo solo i nomi dei team per questioni di privacy verso il pubblico
-        return facade.getDettagliHackathon(hackathonId).getTeams().stream().map(Team::getNome).collect(Collectors.toList());
-    }*/
     
     @GetMapping("/squadre-hackathon")
     public List<Team> getSquadreHackathon(@RequestParam("hackathonId") Long hackathonId) {
-        // Restituisce l'intera lista degli oggetti Team con tutte le loro specifiche
         return facade.getDettagliHackathon(hackathonId).getTeams();
     }
 
@@ -82,11 +76,7 @@ public class TeamController {
 
     @GetMapping("/dettagli-hackathon")
     public HackathonDTO visualizzaDettagli(@RequestParam("hackathonId") Long hackathonId) {
-        // 1. Recupera l'entity dal database tramite la facade
         Hackathon h = facade.getDettagliHackathon(hackathonId);
-
-        // 2. Se non esiste, potresti voler gestire l'errore,
-        // ma qui lo trasformiamo direttamente nel DTO "leggero"
         return new HackathonDTO(
                 h.getId(),
                 h.getNome(),
@@ -154,15 +144,13 @@ public class TeamController {
 
         return facade.aggiungiMentore(hackathonId, usernameMentore);
     }
-
-    // UC15 - Visualizza Richieste Supporto (Per Mentore/Organizzatore)
+    
     @GetMapping("/richieste-supporto")
     @PreAuthorize("hasAnyRole('MENTORE', 'ORGANIZZATORE')")
     public List<String> vediRichieste(@RequestParam("hackathonId") Long hackathonId) {
         return facade.getMessaggiSupporto(hackathonId);
     }
-
-    // UC16/17 - Proponi Call (Per Mentore)
+    
     @PostMapping("/proponi-call")
     @PreAuthorize("hasRole('MENTORE')")
     public String proponiCall(@RequestParam("id") Long id, @RequestParam("orario") String orario) {
