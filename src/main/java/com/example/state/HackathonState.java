@@ -3,10 +3,9 @@ package com.example.state;
 import com.example.model.Hackathon;
 import com.example.model.Team;
 
-/**
- * Questa è l'interfaccia base del Design Pattern State.
- * Definisce i metodi che cambieranno comportamento a seconda della fase dell'Hackathon.
- */
+ // Questa è l'interfaccia base del Design Pattern State.
+ // Definisce i metodi che cambieranno comportamento a seconda della fase dell'Hackathon.
+ 
 public interface HackathonState {
     
     // Metodo per iscrivere un team (permesso solo in "InIscrizione")
