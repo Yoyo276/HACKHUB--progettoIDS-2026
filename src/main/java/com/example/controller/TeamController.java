@@ -134,8 +134,6 @@ public class TeamController {
         return facade.daiVoto(id, voto, giudizio, usernameGiudice);
     }
 
-    // --- CONSULTAZIONE ---
-
     @PostMapping("/aggiungi-mentore")
     @PreAuthorize("hasRole('ORGANIZZATORE')")
     public String aggiungiMentore(
