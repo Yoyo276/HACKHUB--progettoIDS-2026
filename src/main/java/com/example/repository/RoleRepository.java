@@ -7,6 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    // Questo metodo ci serve per cercare "ROLE_MEMBRO_TEAM" nel DB
     Optional<Role> findByName(String name);
 }
