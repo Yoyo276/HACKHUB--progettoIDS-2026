@@ -7,13 +7,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service // <--- Fondamentale! Dice a Spring che questa classe esiste
+@Service 
 public class HackathonService {
 
     @Autowired
     private HackathonRepository hackathonRepository;
 
-    // Questo è il metodo che la Facade sta cercando disperatamente
     public List<Hackathon> findAll() {
         return hackathonRepository.findAll();
     }
