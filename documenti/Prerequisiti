@@ -1,0 +1,28 @@
+Prerequisiti per la valutazione del                   progetto di Ingegneria del Software
+
+Entro la data di iscrizione, la repository GitHub del progetto deve essere pubblica, includere tutti i membri del gruppo come collaboratori, e contenere:
+Il file di Visual Paradigm (.vpp);
+Il codice di progetto.
+
+1) File di Visual Paradigm
+
+Il file di visual paradigm deve contenere:
+Diagramma dei casi d’uso;
+Diagramma delle classi di analisi;
+Diagrammi di sequenza; 
+Diagramma delle classi di progetto.
+
+Il diagramma dei casi d’uso deve contenere:
+Gli attori ed i rispettivi casi d’uso identificati dalla specifica di progetto;
+Per ogni iterazione, almeno 3 casi d’uso dettagliati, con:
+Flow of events;
+Sequenze alternative;
+Precondizioni;
+Postcondizioni.
+
+I diagrammi delle classi di analisi, di sequenza, e di progetto devono essere coerenti rispetto ai casi d’uso che si è scelto di dettagliare.
+2) Codice di Progetto
+
+Il codice di progetto deve rispettare i vincoli tecnici già indicati nella specifica. Il progetto deve essere sviluppato in Java e successivamente portato su Spring Boot.
+
+I progetti che non rispettano questi requisiti non saranno considerati.
