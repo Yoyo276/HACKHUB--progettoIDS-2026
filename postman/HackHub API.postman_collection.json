@@ -1,0 +1,885 @@
+{
+  "info": {
+    "_postman_id": "ce22ded9-6d23-47e6-8ceb-4519df3704e9",
+    "name": "HackHub API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53481218",
+    "_collection_link": "https://go.postman.co/collection/53481218-ce22ded9-6d23-47e6-8ceb-4519df3704e9?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Prendi la risposta JSON\r",
+              "var response = pm.response.json();\r",
+              "\r",
+              "// Se il token esiste nella risposta, salvalo nella variabile d'ambiente\r",
+              "if (response.token) {\r",
+              "    pm.environment.set(\"jwt_token\", response.token);\r",
+              "    console.log(\"Token salvato correttamente!\");\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"password123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SquadreDiUnHackathonSpecifico",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/squadre-hackathon?hackathonId=1000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "squadre-hackathon"
+          ],
+          "query": [
+            {
+              "key": "hackathonId",
+              "value": "1000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "VisualizzaTutteLeSquadre",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/tutti-team",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "tutti-team"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Visualizzi Tutti Hackthon",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/tutti-hackathon",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "tutti-hackathon"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Dettagli Hackathon specifico",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/dettagli-hackathon?hackathonId=1000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "dettagli-hackathon"
+          ],
+          "query": [
+            {
+              "key": "hackathonId",
+              "value": "1000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crea Team",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/crea-team?hackathonId=1000&nome=TeamNuovo",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "crea-team"
+          ],
+          "query": [
+            {
+              "key": "hackathonId",
+              "value": "1000"
+            },
+            {
+              "key": "nome",
+              "value": "TeamNuovo"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SottomissioneTeamNuovo",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/sottometti?id=1&link=https://github.com/TeamNuovo/Progetto",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "sottometti"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "1"
+            },
+            {
+              "key": "link",
+              "value": "https://github.com/TeamNuovo/Progetto"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invia Utente",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/invita?id=1&user=user4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "invita"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "1"
+            },
+            {
+              "key": "user",
+              "value": "user4"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Accetta Invito",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/accetta-invito?teamId=1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "accetta-invito"
+          ],
+          "query": [
+            {
+              "key": "teamId",
+              "value": "1",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Carica sottomissione",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/sottometti?id=1&link=https://github.com/NicolaCase/Progetto-IDS-HackHub",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "sottometti"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "1"
+            },
+            {
+              "key": "link",
+              "value": "https://github.com/NicolaCase/Progetto-IDS-HackHub"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Iscrizione Team",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/crea-team?nome=TeamAlpha&id=1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "crea-team"
+          ],
+          "query": [
+            {
+              "key": "nome",
+              "value": "TeamAlpha"
+            },
+            {
+              "key": "id",
+              "value": "1",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invia richiesta supporto",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/chiedi-supporto?id=100&messaggio=Problemi con maven",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "chiedi-supporto"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "100"
+            },
+            {
+              "key": "messaggio",
+              "value": "Problemi con maven",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Visualizza Richieste supporto",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/richieste-supporto?hackathonId=1000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "richieste-supporto"
+          ],
+          "query": [
+            {
+              "key": "hackathonId",
+              "value": "1000",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Visualizza stato sottomissione",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/stato-sottomissione",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "stato-sottomissione"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Creazione Hackathon",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/crea-hackathon?nome=International Hack 2026&luogo=Milano&premio=3000&giudiceId=101&scadenza=2026-04-10&inizio=2026-04-12&fine=2026-04-15&maxMembri=5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "crea-hackathon"
+          ],
+          "query": [
+            {
+              "key": "nome",
+              "value": "International Hack 2026"
+            },
+            {
+              "key": "luogo",
+              "value": "Milano"
+            },
+            {
+              "key": "premio",
+              "value": "3000"
+            },
+            {
+              "key": "giudiceId",
+              "value": "101"
+            },
+            {
+              "key": "scadenza",
+              "value": "2026-04-10"
+            },
+            {
+              "key": "inizio",
+              "value": "2026-04-12"
+            },
+            {
+              "key": "fine",
+              "value": "2026-04-15"
+            },
+            {
+              "key": "maxMembri",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Avanza Fase",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/avanza?hackathonId=1000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "avanza"
+          ],
+          "query": [
+            {
+              "key": "hackathonId",
+              "value": "1000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Proclama ed Eroga Premio",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/proclama-vincitore?hackathonId=1000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "proclama-vincitore"
+          ],
+          "query": [
+            {
+              "key": "hackathonId",
+              "value": "1000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Propone/Prenota call",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/proponi-call?id=100&orario=17:00",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "proponi-call"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "100"
+            },
+            {
+              "key": "orario",
+              "value": "17:00"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Accesso sottomissioni",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/tutti",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "tutti"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Valutazione progetto",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/vota?id=100&voto=10&giudizio=Eccezionale!",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "vota"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "100"
+            },
+            {
+              "key": "voto",
+              "value": "10"
+            },
+            {
+              "key": "giudizio",
+              "value": "Eccezionale!"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Tutti progetti di uno specifico Hack",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/sottomissioni-hackathon?hackathonId=1000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "sottomissioni-hackathon"
+          ],
+          "query": [
+            {
+              "key": "hackathonId",
+              "value": "1000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Aggiungi Mentore",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/aggiungi-mentore?hackathonId=1000&usernameMentore=mentore2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "aggiungi-mentore"
+          ],
+          "query": [
+            {
+              "key": "hackathonId",
+              "value": "1000"
+            },
+            {
+              "key": "usernameMentore",
+              "value": "mentore2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Segnala Violazione",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/teams/segnala-violazione?id=100&nota=Potrbbero aver copiato",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "segnala-violazione"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "100"
+            },
+            {
+              "key": "nota",
+              "value": "Potrbbero aver copiato"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DettagliPerVisitatoreNoAuth",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/teams/tutti-hackathon",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "teams",
+            "tutti-hackathon"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
