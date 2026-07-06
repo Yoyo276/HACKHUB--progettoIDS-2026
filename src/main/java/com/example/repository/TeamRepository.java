@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
     List<Team> findByHackathonIdAndMessaggioSupportoIsNotNull(Long hackathonId);
+    List<Team> findByUtenteInvitato(String username);
 }

@@ -53,6 +53,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    // Metodo di supporto per leggere "Bearer <token>" dall'header Authorization
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 

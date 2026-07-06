@@ -12,7 +12,8 @@ import java.util.Date;
 
 @Component
 public class JwtUtils {
-    
+
+    // Una chiave segreta per firmare il token (la definiamo tra poco in application.properties)
     @Value("${hackhub.jwt.secret}")
     private String jwtSecret;
 

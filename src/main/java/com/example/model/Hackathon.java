@@ -41,7 +41,7 @@ public class Hackathon {
     private List<User> mentori = new ArrayList<>();
 
     @OneToMany(mappedBy = "hackathon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("hackathon")
+    @JsonIgnoreProperties("hackathon") // <--- EVITA CHE IL TEAM RICHIAMI L'HACKATHON
     private List<Team> teams = new ArrayList<>();
 
     public Hackathon() {

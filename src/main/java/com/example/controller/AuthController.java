@@ -4,6 +4,7 @@ import com.example.dto.JwtResponse;
 import com.example.dto.LoginRequest;
 import com.example.model.auth.UserDetailsImpl;
 import com.example.security.jwt.JwtUtils;
+import com.example.service.HackathonManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,9 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    HackathonManager hackathonManager;
 
     @PostMapping("/login")
 public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
@@ -56,4 +60,16 @@ public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest
         return ResponseEntity.status(401).body("Errore: Credenziali non valide o utente non trovato");
     }
 }
+
+    @PostMapping("/registrazione")
+    public ResponseEntity<?> registra(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            @RequestParam("email") String email) {
+        String risultato = hackathonManager.registraUtente(username, password, email);
+        if (risultato.startsWith("Errore")) {
+            return ResponseEntity.status(409).body(risultato);
+        }
+        return ResponseEntity.ok(risultato);
+    }
 }

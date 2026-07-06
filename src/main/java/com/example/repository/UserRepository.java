@@ -7,5 +7,7 @@ import java.util.Optional; // Import fondamentale
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    // Cambiamo il ritorno da User a Optional<User>
     Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }

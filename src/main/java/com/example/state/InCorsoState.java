@@ -18,6 +18,7 @@ public class InCorsoState implements HackathonState {
 
     @Override
     public void procediAlProssimoStato(Hackathon h) {
+        // Usa h.getTeams() che abbiamo appena aggiunto
         long consegnati = h.getTeams().stream()
                 .filter(t -> t.getLinkSottomissione() != null).count();
 

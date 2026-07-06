@@ -15,6 +15,7 @@ public class InValutazioneState implements HackathonState {
         System.out.println("ERRORE: Tempo scaduto! Non si possono più inviare progetti.");
     }
 
+    // Dentro InValutazioneState.java
 @Override
 public void procediAlProssimoStato(Hackathon h) {
     System.out.println("SISTEMA: Per chiudere l'hackathon, usa l'endpoint eroga-premio.");
@@ -25,6 +26,7 @@ public void procediAlProssimoStato(Hackathon h) {
         return "IN VALUTAZIONE";
     }
 
+    // Metodo specifico per il Giudice
     public void daiVoto(Team t, int voto) {
         if (voto >= 0 && voto <= 10) {
             System.out.println("GIUDICE: Il team " + t.getNome() + " ha ricevuto un voto di: " + voto + "/10");

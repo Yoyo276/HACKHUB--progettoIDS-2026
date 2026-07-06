@@ -14,14 +14,15 @@ public class Team {
     private Long id;
     private String nome;
     private String linkSottomissione;
-    private Integer voto = 0;
+    private Integer voto;
     private String giudizioGiudice;
 
     @ManyToOne
     @JoinColumn(name = "hackathon_id")
-    @JsonIgnore
+    @JsonIgnore // <--- BLOCCA IL LOOP ALLA RADICE
     private Hackathon hackathon;
 
+    // --- NUOVO: LISTA DEI MEMBRI PER CONTROLLARE LA DIMENSIONE ---
     @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
     private List<User> membri = new ArrayList<>();
 
@@ -30,6 +31,7 @@ public class Team {
     private String messaggioSupporto;
     private String orarioCall;
     private boolean premioErogato;
+    private String notaViolazione;
 
     public Team() {
     }
@@ -37,7 +39,8 @@ public class Team {
     public Team(String nome) {
         this.nome = nome;
     }
-    
+
+    // GETTER E SETTER
     public Long getId() {
         return id;
     }
@@ -128,5 +131,13 @@ public class Team {
 
     public void setPremioErogato(boolean premioErogato) {
         this.premioErogato = premioErogato;
+    }
+
+    public String getNotaViolazione() {
+        return notaViolazione;
+    }
+
+    public void setNotaViolazione(String notaViolazione) {
+        this.notaViolazione = notaViolazione;
     }
 }

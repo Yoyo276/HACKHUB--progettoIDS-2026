@@ -31,15 +31,15 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-
+    // Vincolo: Un utente può appartenere a un solo team alla volta
     @ManyToOne
     @JoinColumn(name = "team_id")
-    @JsonIgnore
+    @JsonIgnore // <--- AGGIUNGI QUESTO! Fondamentale per rompere il loop
     private Team team;
 
     public User() {}
 
-   
+    // Getter e Setter
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getUsername() { return username; }

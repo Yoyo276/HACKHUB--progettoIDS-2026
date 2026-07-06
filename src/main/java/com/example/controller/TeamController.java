@@ -3,7 +3,7 @@ package com.example.controller;
 import com.example.model.Team;
 import com.example.dto.HackathonDTO;
 import com.example.model.Hackathon;
-import com.example.service.HackathonFacade;
+import com.example.service.HackathonManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class TeamController {
 
     @Autowired
-    private HackathonFacade facade;
+    private HackathonManager facade;
 
     // --- AZIONI PER L'ORGANIZZATORE ---
 
@@ -48,7 +48,7 @@ public class TeamController {
     @PostMapping("/proclama-vincitore")
     @PreAuthorize("hasRole('ORGANIZZATORE')")
     public String proclamaVincitore(@RequestParam("hackathonId") Long hackathonId) {
-        return facade.erogaPremioAutomatico(hackathonId);
+        return facade.proclamaVincitore(hackathonId);
     }
 
     @PostMapping("/chiedi-supporto")
@@ -56,9 +56,15 @@ public class TeamController {
     public String chiediSupporto(@RequestParam("id") Long id, @RequestParam("messaggio") String messaggio) {
         return facade.richiediAiuto(id, messaggio);
     }
+/* @GetMapping("/squadre-hackathon")
+    public List<String> getSquadreHackathon(@RequestParam("hackathonId") Long hackathonId) {
+        // Restituiamo solo i nomi dei team per questioni di privacy verso il pubblico
+        return facade.getDettagliHackathon(hackathonId).getTeams().stream().map(Team::getNome).collect(Collectors.toList());
+    }*/
     
     @GetMapping("/squadre-hackathon")
     public List<Team> getSquadreHackathon(@RequestParam("hackathonId") Long hackathonId) {
+        // Restituisce l'intera lista degli oggetti Team con tutte le loro specifiche
         return facade.getDettagliHackathon(hackathonId).getTeams();
     }
 
@@ -76,7 +82,11 @@ public class TeamController {
 
     @GetMapping("/dettagli-hackathon")
     public HackathonDTO visualizzaDettagli(@RequestParam("hackathonId") Long hackathonId) {
+        // 1. Recupera l'entity dal database tramite la facade
         Hackathon h = facade.getDettagliHackathon(hackathonId);
+
+        // 2. Se non esiste, potresti voler gestire l'errore,
+        // ma qui lo trasformiamo direttamente nel DTO "leggero"
         return new HackathonDTO(
                 h.getId(),
                 h.getNome(),
@@ -134,6 +144,8 @@ public class TeamController {
         return facade.daiVoto(id, voto, giudizio, usernameGiudice);
     }
 
+    // --- CONSULTAZIONE ---
+
     @PostMapping("/aggiungi-mentore")
     @PreAuthorize("hasRole('ORGANIZZATORE')")
     public String aggiungiMentore(
@@ -142,13 +154,22 @@ public class TeamController {
 
         return facade.aggiungiMentore(hackathonId, usernameMentore);
     }
-    
+
+    // UC15 - Visualizza Richieste Supporto (Per Mentore/Organizzatore)
     @GetMapping("/richieste-supporto")
     @PreAuthorize("hasAnyRole('MENTORE', 'ORGANIZZATORE')")
     public List<String> vediRichieste(@RequestParam("hackathonId") Long hackathonId) {
         return facade.getMessaggiSupporto(hackathonId);
     }
-    
+
+    // Visualizza Segnalazioni Violazione (Per Mentore/Organizzatore)
+    @GetMapping("/segnalazioni-hackathon")
+    @PreAuthorize("hasAnyRole('MENTORE', 'ORGANIZZATORE')")
+    public List<String> vediSegnalazioni(@RequestParam("hackathonId") Long hackathonId) {
+        return facade.getSegnalazioni(hackathonId);
+    }
+
+    // UC16/17 - Proponi Call (Per Mentore)
     @PostMapping("/proponi-call")
     @PreAuthorize("hasRole('MENTORE')")
     public String proponiCall(@RequestParam("id") Long id, @RequestParam("orario") String orario) {
@@ -158,6 +179,19 @@ public class TeamController {
     @GetMapping("/tutti-team")
     public List<Team> listaTeam() {
         return facade.getAll();
+    }
+
+    @PutMapping("/aggiorna-sottomissione")
+    @PreAuthorize("hasRole('MEMBRO_TEAM')")
+    public String aggiornaSottomissione(@RequestParam("id") Long id, @RequestParam("link") String link) {
+        return facade.aggiornaLinkSottomissione(id, link);
+    }
+
+    @GetMapping("/miei-inviti")
+    @PreAuthorize("hasRole('UTENTE')")
+    public List<String> mieiInviti() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return facade.getInvitiPerUtente(username);
     }
 
     @GetMapping("/tutti-hackathon")
